@@ -1,9 +1,7 @@
 import os
-import sys
 import threading
 import time
 import random
-import functions
 
 
 def start_thread(target, arguments=None):
