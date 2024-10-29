@@ -6,6 +6,22 @@ import random
 import functions
 
 
+def start_thread(target, arguments=None):
+    if arguments is None:
+        thread = threading.Thread(target=target)
+    else:
+        thread = threading.Thread(target=target, args=arguments)
+
+    thread.daemon = True
+    thread.start()
+
+    return thread
+
+
+def clamp(value, min_value, max_value):
+    return max(min(value, max_value), min_value)
+
+
 def main(stdscr):
     def ball_update(color, y, x, vel_y, vel_x, array_index):
         nonlocal barrier, hp
@@ -56,8 +72,8 @@ def main(stdscr):
 
                     update_block_count(color, 4)
 
-            x = functions.clamp(x + vel_x, 0, width)
-            y = functions.clamp(y + vel_y, 0, height)
+            x = clamp(x + vel_x, 0, width)
+            y = clamp(y + vel_y, 0, height)
 
             balls[array_index][1] = y
             balls[array_index][2] = x
@@ -225,11 +241,11 @@ def main(stdscr):
         for i, ball in enumerate(balls):
             if ball is None:
                 balls[i] = [color, y, x, vel_y, vel_x, i]
-                functions.start_thread(ball_update, [color, y, x, vel_y, vel_x, i])
+                start_thread(ball_update, [color, y, x, vel_y, vel_x, i])
                 break
         else:
             balls.append([color, y, x, vel_y, vel_x])
-            functions.start_thread(ball_update, [color, y, x, vel_y, vel_x, len(balls) - 1])
+            start_thread(ball_update, [color, y, x, vel_y, vel_x, len(balls) - 1])
 
     def remove_ball(array_index):
         balls[array_index] = None
@@ -324,10 +340,10 @@ def main(stdscr):
     curses.curs_set(False)
     stdscr.clear()
 
-    functions.start_thread(input_management)
-    functions.start_thread(pad_movement)
-    functions.start_thread(reload_ammo)
-    # functions.start_thread(raise_difficulty)
+    start_thread(input_management)
+    start_thread(pad_movement)
+    start_thread(reload_ammo)
+    # start_thread(raise_difficulty)
 
     if game_mode == 2:
         add_ball("b", 0, random.randrange(0, width), 1, random.choice([-1, 1]))
