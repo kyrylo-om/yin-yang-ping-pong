@@ -26,7 +26,7 @@ def main(stdscr):
 
         alt_color = "w" if color == "b" else "b"
 
-        while not game_state:
+        while game_state == 0:
             if array_index > len(balls) - 1:
                 break
 
