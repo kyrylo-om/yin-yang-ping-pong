@@ -355,15 +355,17 @@ def main(stdscr):
             if game_state == 1:
                 stdscr.clear()
                 stdscr.addstr(height // 2, width // 2, "You win!")
-                time.sleep(1)
-                stdscr.addstr(height // 2 + 1, width // 2 - 3, "(Press any key)")
+                stdscr.addstr(height // 2 + 1, width // 2 - 1, "Yippee!!!")
+                stdscr.refresh()
+                time.sleep(2)
                 stdscr.nodelay(False)
                 stdscr.getch()
             if game_state == 2:
                 stdscr.clear()
                 stdscr.addstr(height // 2, width // 2, "You lose!")
-                time.sleep(1)
-                stdscr.addstr(height // 2 + 1, width // 2 - 3, "(Press any key)")
+                stdscr.addstr(height // 2 + 1, width // 2 - 3, "Ain't no way")
+                stdscr.refresh()
+                time.sleep(2)
                 stdscr.nodelay(False)
                 stdscr.getch()
             break
